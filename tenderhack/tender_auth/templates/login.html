@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if request.user.is_authenticated %}
+        <p>Вы уже авторизованы, {{ request.user.name }}!</p>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Выйти из аккаунта</button>
+        </form>
+    {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Войти в аккаунт</button>
+        </form>
+    {% endif %}
+
+{% endblock %}
