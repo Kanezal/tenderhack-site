@@ -4,14 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block head %}
+    {% endblock head %}
+
     <title>Tenderhack</title>
 </head>
 
 <body>
     <main>
         {% block content %}
-        {% endblock %}
+        {% endblock content %}
     </main>
+
+    {% block javascript %}
+    {% endblock javascript %}
 </body>
 
 </html>

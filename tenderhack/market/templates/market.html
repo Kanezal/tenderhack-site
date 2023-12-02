@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+{% endblock head %}
+
+{% block content %}
+<form method="POST" name="django-market-form">
+    {% csrf_token %}
+    errors: {{ form.errors }}
+
+    <h2>Заголовок услуги</h2>
+    {{ form.label }} <br/>
+
+    <h2>Описание услуги</h2>
+    {{ form.description }} <br/>
+    
+    {{ form.main_form }} <br/>
+</form>
+
+<h2>Форма договора для клиента</h2>
+<div id="fb-editor"></div>
+
+<button id="submitBtn">Создать ну это самое короче вы поняли</button>
+
+<hr/>
+<ul>
+    {% for proposal in proposals %}
+    <li>
+        <a href="{% url 'proposal_detail' id=proposal.id %}">{{ proposal.label }}</a>
+    </li>
+    {% empty %}
+    <li>
+        Странно, список пуст
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    let fb;
+
+    var options = {
+        i18n: {
+            locale: 'ru-RU',
+            location: "{% static 'fb/' %}"
+        },
+        disabledActionButtons: ['data', 'save'],
+        disabledAttrs: [
+            'style',
+            'placeholder',
+            'className',
+            'access'
+        ],
+        disableFields: [
+            'file',
+            'hidden',
+            'button',
+        ],
+        actionButtons: [{
+            id: 'savejson',
+            className: 'btn btn-success',
+            label: 'Сохранить форму',
+            type: 'button',
+            events: {
+                click: function() {
+                    let mainForm = document.getElementsByName('main_form')[0];
+                    mainForm.value = JSON.stringify(fb.actions.getData('json', true))
+                }
+            }
+        }],
+        // onSave: function (evt, formData) {
+        //     console.log("formbuilder saved");
+        //     document.body.classList.toggle("form-rendered", !editing);
+        //     $(".render-wrap").formRender({ formData });
+        // }
+    }
+
+
+    jQuery(function ($) {
+        fb = $(document.getElementById('fb-editor')).formBuilder(options);
+    });
+
+    document.getElementById("submitBtn").addEventListener("click", function() {
+        document.forms["django-market-form"].submit();
+    });
+
+</script>
+{% endblock javascript %}

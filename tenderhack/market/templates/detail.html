@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+    <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+{% endblock head %}
+
+{% block content %}
+    <h2>Создал: {{proposal.user.name}}</h2> <br/>
+    <h2>Описание создавшего: {{proposal.user.description}}</h2> <br/>
+    <h2>Заголовок заявки: {{proposal.description}}</h2> <br/>
+    <h2>Описание заявки: {{proposal.description}}</h2> <br/>
+    <h2>Форма заявки:</h2> <br/>
+    <form id="form-render"></form>
+    <button name="submitBtn">Отправить заявку</button>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    jQuery(function ($) {
+        const fbRender = document.getElementById('form-render');
+        const formData = `{{ proposal.main_form }}`.replace(/&quot;/g, '"')
+        const formRenderOpts = {
+            formData,
+            dataType: 'json'
+        };
+        $(fbRender).formRender(formRenderOpts)
+        
+
+        const submitBtn = document.getElementsByName('submitBtn')[0];
+        submitBtn.addEventListener('click', () => {
+            const form = document.getElementById('form-render');
+            const formData = $(form).formRender('userData');
+            console.log(formData);
+        })
+    });
+</script>
+{% endblock %}
