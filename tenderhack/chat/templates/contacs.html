@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Мои чачи</h1>
+    <ul>
+        {% for chat in chats %}
+            <li>
+                <a href="{% url 'chat' chat.id %}">
+                    Chat with 
+                    {% if request.user.role == 'performer' %}
+                        {{ chat.customer.username }}
+                    {% else %}
+                        {{ chat.performer.username }}
+                    {% endif %}
+                    {% if chat.unread_messages > 0 %}
+                        ({{ chat.unread_messages }} unread messages)
+                    {% endif %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

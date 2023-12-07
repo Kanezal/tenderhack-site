@@ -21,5 +21,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/", include("tender_auth.urls")),
     path("market/", include("market.urls")),
-    # path("chat/", include("chat.urls"))
+    path("messenger/", include("chat.urls"))
 ]

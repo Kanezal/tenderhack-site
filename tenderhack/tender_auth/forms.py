@@ -4,5 +4,5 @@ from . import models
 class RegisterForm(UserCreationForm):
     class Meta:
         model = models.TenderUser
-        fields = ['name', 'email', 'role', 'description', 'password1', 'password2']
+        fields = ['first_name', 'role', 'email', 'password1', 'password2']
 

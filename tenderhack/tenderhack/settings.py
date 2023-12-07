@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
-    
     # Channels
     'channels',
+    'daphne',
+    
+    "django.contrib.staticfiles",
+    
 
     # Tender-apps:
     "tender_auth",
@@ -141,11 +143,13 @@ LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'Europe/Moscow'
 
 # Channels
+ASGI_APPLICATION = 'tenderhack.asgi.application'
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        # 'CONFIG': {
+        #     "hosts": [('127.0.0.1', 6379)],
+        # },
     },
 }

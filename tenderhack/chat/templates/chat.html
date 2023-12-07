@@ -1,5 +1,21 @@
+{% extends 'base.html' %}
+
 {% block content %}
-<div id="chat-log">
+<div id="slider" style="overflow-x: auto; white-space: nowrap;">
+    {% for form_message in form_messages %}
+    <div style="display: inline-block;">
+        <input type="hidden" id="form-message-{{ forloop.counter }}" value="{{ form_message.form }}">
+        <p onclick="showModal('form-message-{{ forloop.counter }}')">Click to view form message</p>
+    </div>
+    {% endfor %}
+</div>
+
+<hr/>
+
+<div id="chat-log" style="max-height: 500px; overflow-y: scroll;">
+    {% for message in messages %}
+    <p>{{ message.sender.username }}: {{ message.text }}</p>
+    {% endfor %}
 </div>
 
 <input id="chat-message-input" type="text">
@@ -8,7 +24,11 @@
 
 {% block javascript %}
 <script>
-    var roomName = `{{ room_name_json }}`;
+    // Вебсокеты
+    const chatLog = document.querySelector('#chat-log');
+    chatLog.scrollTop = chatLog.scrollHeight
+
+    var roomName = `{{ room_id }}`;
     var chatSocket = new WebSocket(
         'ws://' + window.location.host +
         '/ws/chat/' + roomName + '/');
@@ -16,7 +36,15 @@
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var message = data['message'];
-        document.querySelector('#chat-log').value += (message + '\n');
+        console.log(data)
+        document.querySelector('#chat-log').innerHTML += (`<p>${ data['sender'] }: ${message}</p>`);
+
+        const chatLog = document.querySelector('#chat-log');
+
+        if (chatLog.scrollHeight - chatLog.scrollTop - chatLog.clientHeight < 100) {
+            // Auto scroll to the bottom
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
     };
 
     chatSocket.onclose = function(e) {
@@ -39,5 +67,12 @@
 
         messageInputDom.value = '';
     };
+</script>
+
+<script>
+    function showModal(inputId) {
+        var formMessage = document.getElementById(inputId).value;
+        alert(formMessage);
+    }
 </script>
 {% endblock %}
