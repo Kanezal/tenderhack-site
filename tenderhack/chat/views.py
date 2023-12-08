@@ -12,11 +12,12 @@ def chat_view(request, room_id):
 @login_required
 def contacts_view(request):
     user = request.user
+
     if user.role == 'performer':
         chats = Chat.objects.filter(performer=user)
     else:
         chats = Chat.objects.filter(customer=user)
-    
+    print(chats)
     chats = chats.annotate(last_message_time=Max('message__sent_time')).order_by('-last_message_time')
     
     for chat in chats:

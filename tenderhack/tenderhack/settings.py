@@ -138,6 +138,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # My settings
+LOGIN_URL = '/auth/login/'
 AUTH_USER_MODEL = 'tender_auth.TenderUser'
 LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'Europe/Moscow'
