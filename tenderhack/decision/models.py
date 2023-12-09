@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from approval.models import ApprovableModelMixin, ApprovableManager
 from simple_history.models import HistoricalRecords
 
 LAW_CHOICES = [
