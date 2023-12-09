@@ -15,14 +15,38 @@
 <div id="chat-log" style="max-height: 500px; overflow-y: scroll;">
     {% for message in messages %}
     <p>{{ message.sender.username }}: {{ message.text }}</p>
+    {% empty %}
+    <p>No messages yet...</p>
     {% endfor %}
 </div>
 
+<input id="open-modal" type="button" value="FORM">
 <input id="chat-message-input" type="text">
 <input id="chat-message-submit" type="button" value="Send">
+
+
+<dialog id="form-modal">
+    <div>
+
+    </div>
+    <button id="close-modal">Close</button>
+</dialog>
 {% endblock %}
 
 {% block javascript %}
+<script>
+    // Модальное окно форм
+    formModal = document.querySelector('#form-modal');
+    closeBtn = document.querySelector('#close-modal');
+    openBtn = document.querySelector('#open-modal');
+
+    openBtn.addEventListener('click', function() {
+        formModal.showModal();
+    });
+    closeBtn.addEventListener('click', function() {
+        formModal.close();
+    });
+</script>
 <script>
     // Вебсокеты
     const chatLog = document.querySelector('#chat-log');

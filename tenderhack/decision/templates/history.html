@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for change in changes %}
+        <div>
+            <h2>Change made at {{ change.history_date }}</h2>
+            {% for diff in change.changes %}
+                <p>{{ diff.field }}: {{ diff.old }} -> {{ diff.new }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}    
+{% endblock content %}

@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     # Channels
+    'approval',
+    'simple_history',
     'channels',
     'daphne',
     
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     # Tender-apps:
     "tender_auth",
     "market",
+    'decision',
     "chat"
 ]
 
