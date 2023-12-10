@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="regulog.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'>
+    <title>TEND</title>
+</head>
+<body>  
+  <header>
+    <div class="reg">
+        <div class="logoBBC">
+            <img src="SCR-20231205-enyz-transformed.png">
+        </div>
+      <strong><p class="cent">Регистрация</p></strong>
+    </div>
+  </header>  
+  <main>  
+  <form class="frm">
+    <form class="register-form">
+      <input type="text" placeholder="Имя" class="ch"/>
+      <input type="text" placeholder="E-mail" class="ch"/>
+      <input type="password" placeholder="Пороль" class="ch"/><span class="icon"><i class='bx bx-question-mark' id="que"></i></span>
+      <ul class="imp">
+        <li>Пароль не должен содержать личную информацию</li>
+        <li>Пароль должен состоять более чем из 8 символов</li>
+        <li>Пароль не должен содержать только цифры</li>
+        <li>Пароль должен быть уникальным</li>
+      </ul>
+      <input type="password" placeholder="Подтвердите пороль" class="ch"/>
+      <select name="user" id="user-select" class="ch cont biba">
+        <option value="" class="opt">Хочу использовать как...</option>
+        <option value="1" class="opt">Заказчик</option>
+        <option value="2" class="opt">Поставщик</option>
+      </select>
+      <div class="icon"><i class='bx bx-chevron-down' id="dow"></i></div>
+      <input type="text" placeholder="Наименование организации" class="ch"/>
+    </form>
+  </form>  
+  </main>           
+  <footer>
+    <div class="reg-but">
+        <a href="#"><button class="bpr logi">Зарегистироваться</button></a>
+    </div>
+    <div pole><p class="regp">Уже есть аккаунт? <a href="log.html"><strong><span class="red">Войти</span></strong></a></p></div>
+  </footer>
+</body> 
+</html> 

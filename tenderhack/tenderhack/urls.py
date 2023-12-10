@@ -23,4 +23,5 @@ urlpatterns = [
     # path("market/", include("market.urls")),
     path("messenger/", include("chat.urls")),
     path("decision/", include("decision.urls")),
+    path("", include("about.urls")),
 ]

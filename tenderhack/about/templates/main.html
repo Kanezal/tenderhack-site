@@ -1,0 +1,151 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'>
+    <title>TEND</title>
+</head>
+<body>
+    <div class="abs">
+      <div class="circle"></div>
+        <div class="header">
+            <div class="logo1"><img src="{% static 'logo1.png' %}" class="photo"></div>
+        </div>
+        <div class="str1">
+            <h1 class="plat">ПЛАТФОРМА ДЛЯ ПОИСКА ТЕНДЕРОВ</h1>
+            <p class="ud">Удобная коммуникация между заказчиками и поставщиками онлайн</p>
+            <div class="buttons">
+                <button class="b1">
+                  <img src="{% static 'SCR-20231203-tdrr.png' %}" class="photo2">
+                  <p class="naiti">Найти контракт</p>
+              </button>
+
+              <button class="b2">
+                  <img src="{% static  'SCR-20231203-tdtd.png' %}" class="photo3">
+                  <p class="chat"><a href="index.html">Чат</a></p>
+              </button>
+
+            
+              <button class="b3">
+                  <img src="{% static 'SCR-20231203-tduj.png' %}"  class="photo4">
+                  <p class="sd">Сделки</p>
+              </button>
+            </div>
+            
+            <div class="reg">
+                <button class="b4"><a href="#pg5">Регистрация</a></button>
+                <p class="yje">Уже есть аккаунт? <a href="log.html"><span class="red">Войти</span></a></p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="page2">
+        <p class="act">АКТУАЛЬНЫЕ ЗАКУПКИ ПРЯМО СЕЙЧАС <span class="red">7 943</span></p>
+        <div class="wrapper">
+            <i id="left" class="fa-solid fa-angle-left"></i>
+            <ul class="carousel">
+              <li class="card">
+                <div class="img"><a href="reg.html"><img src="{% static 'SCR-20231205-fedq.png' %}" alt="img" draggable="false"></a></div>
+              </li>
+              <li class="card">
+                <div class="img"><a href="reg.html"><img src="{% static 'SCR-20231205-fejq.png' %}" alt="img" draggable="false"><a href="reg.html"></a></div>
+              </li>
+              <li class="card">
+                <div class="img"><a href="reg.html"><img src="{% static 'SCR-20231205-fenu.png' %}" alt="img" draggable="false"><a href="reg.html"></a></div>
+              </li>
+              <li class="card">
+                <div class="img"><a href="reg.html"><img src="{% static 'SCR-20231205-fest.png' %}" alt="img" draggable="false"><a href="reg.html"></a></div>
+              </li>
+              <li class="card">
+                <div class="img"><a href="reg.html"><img src="{% static 'SCR-20231205-fevx.png' %}" alt="img" draggable="false"><a href="reg.html"></a></div>
+              </li>
+              <li class="card">
+                <div class="img"><a href="reg.html"><img src="{% static 'SCR-20231205-ffck.png' %}" alt="img" draggable="false"><a href="reg.html"></a></div>
+              </li>
+            </ul>
+            <i id="right" class="fa-solid fa-angle-right"></i>
+          </div>
+          <div class="more"><p id="pkz">Показать больше ...</p></div>
+    </div>
+
+    <div class="page3">
+        <p class="bol">БОЛЕЕ <span class="red">300</span> КАТЕГОРИЙ ЗАКУПОК</p>
+
+        <form class="frim">
+            <input type="text" placeholder="Выберите категорию" class="ch">
+            <button type="submit" class="but"><i class='bx bx-search' ></i></button>
+        </form>
+
+        <button class="metall"><i class='bx bx-hash one'></i><p class="met">Металл</p></button>
+        <button class="stroi"><i class='bx bx-hash two'></i><p class="stroit">Стройматериалы</p></button>
+        <button class="prog"><i class='bx bx-hash three'></i><p class="progit">Программное обеспечение</p></button>
+        <button class="kom"><i class='bx bx-hash four'></i><p class="komp">Компьютеры</p></button>
+        <button class="ka"><i class='bx bx-hash five'></i><p class="kab">Кабели</p></button>
+        <button class="gru"><i class='bx bx-hash six'></i><p class="gruz">Грузоподъемное обуродование</p></button>
+        <button class="top"><i class='bx bx-hash seven'></i><p class="topl">Топливо</p></button>
+        <button class="sta"><i class='bx bx-hash eight'></i><p class="stal">Нержавеющая сталь</p></button>
+        <button class="isk">Искать</button>
+       
+    </div>
+
+    <div class="page4">
+        <p class="pre">ПРЕИМУЩЕСТВА <span class="red">TEND</span></p>
+        <div class="a"><img src="{% static 'SCR-20231205-egxj.png' %}" width="644px" height="106px"> </div>
+        <div class="b"><img src="{% static 'SCR-20231205-egzr.png' %}" width="644px" height="106px"></div>
+        <div class="c"><img src="{% static 'SCR-20231205-ehba.png' %}" width="644px" height="106px"></div>
+        <div class="d"><img src="{% static 'SCR-20231205-ehcy.png' %}" width="644px" height="106px"></div>
+        <div class="e"><img src="{% static 'SCR-20231205-eheo.png' %}" width="644px" height="106px"></div>
+        <div class="f"><img src="{% static 'SCR-20231205-ehix.png' %}" width="644px" height="106px"></div>
+    </div>
+
+    <div class="page5" id="pg5">
+        <div class="logoBBC"><img src="{% static 'SCR-20231205-enyz-transformed.png' %}" width="350px" height="120px"> </div>
+        <main>  
+            <form class="frm">
+              <form class="register-form">
+                <input type="text" placeholder="Имя" class="ch"/>
+                <input type="text" placeholder="E-mail" class="ch"/>
+                <input type="password" placeholder="Пороль" class="ch"/><span class="icon"><i class='bx bx-question-mark' id="que"></i></span>
+                <ul class="imp">
+                  <li>Пароль не должен содержать личную информацию</li>
+                  <li>Пароль должен состоять более чем из 8 символов</li>
+                  <li>Пароль не должен содержать только цифры</li>
+                  <li>Пароль должен быть уникальным</li>
+                </ul>
+                <input type="password" placeholder="Подтвердите пороль" class="ch"/>
+                <select name="user" id="user-select" class="ch cont biba">
+                  <option value="" class="opt">Хочу использовать как...</option>
+                  <option value="1" class="opt">Заказчик</option>
+                  <option value="2" class="opt">Поставщик</option>
+                </select>
+                <div class="icon"><i class='bx bx-chevron-down' id="dow"></i></div>
+                <input type="text" placeholder="Наименование организации" class="ch"/>
+              </form>
+            </form>  
+        </main>
+        <div class="reg-but">
+            <a href="#"><button class="bpr logi">Зарегистироваться</button></a>
+        </div>
+        <div pole><p class="regp">Уже есть аккаунт? <a href="log.html"><strong><span class="red">Войти</span></strong></a></p></div>
+    </div>
+
+    <div class="page6">
+        <div class="k1"><img src="{% static  'logo-dit-1.png' %}" width="202px" height="72px"></div>
+        <div class="k2"><img src="{% static 'pp-logo-11.png' %}" width="363px" height="78px"></div>
+        <div class="k3"><img src="{% static 'dkp-logo-1.png' %}" width="250" height="82px"></div>
+    </div>
+
+    <div class="footer">
+        <div class="lo"><img src="{% static 'SCR-20231205-enyz-transformed.png' %}" width="250px" height="80px"></div>
+        <p class="paltf">Платформа для удобного общения с заказчиками и поставщиками</p>
+    </div>
+    
+    <script src="index.js"></script>
+</body>
+</html>

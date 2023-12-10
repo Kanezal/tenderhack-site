@@ -1,0 +1,344 @@
+:root{
+    --primary-color:#EC5353;
+    --white-color:white;
+    --dark-color:#262626;
+    --sec-color:#C9C9C9;
+    --border-color:#3A3A3A;
+    --sec-dark-color:#838383;
+
+    --trans-bg-color: background-color .3s, color .3s;
+    --trans-bg: background-color .3s;
+    --trans-color: color .3s;
+
+    
+    --percent100: 100%;
+    --percent50: 50%;
+    
+}
+/* * {
+    margin: 0;
+    padding: 0;
+} */
+*, ::before, ::after{
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+}
+
+
+.logo{
+    display: flex;
+    height: 192px;
+    width: 64px;
+    top: 5em;
+}
+.icon-small{
+    font: 1.25em;
+    margin-left: auto;
+}
+.icon-large{
+  height: 40px;
+  width: 40px;
+  position: relative;
+  top: 11px;
+  right: 8px;
+}
+
+
+.pole{
+    width: 149.257px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex; 
+}
+.regp{
+    top: 0.4em;
+    display: flex;
+    justify-content: center;
+    text-align:center; 
+    vertical-align: middle;
+    font-family: Manrope;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.reg{
+    background-image: none;
+    background-color: #FFF;
+}
+
+.red{
+    color: #EC5353;
+    margin-left: 10px;
+}
+
+.logoBBC{
+    margin-top: 68px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    /* flex-direction: column; */
+    /* align-items: center; */
+    height: 101.789px;
+}
+.cent{
+    margin-top: 30px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #323333;
+    text-align: center;
+    font-family: Manrope;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+#que{
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.frm {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 0.938em;
+}
+.ch,.but{
+  border: none;
+  outline: none;
+  border-radius: 15px;
+}
+.ch{
+  width: 100%;
+  height: 62px;
+  background: #E9E9E9;
+  padding-left: 15px;
+  font-size: 25px;
+  margin: 0.5em;
+  
+}
+
+.but {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 11px;
+  right: 8px;
+  background: #EC5353;
+  cursor: pointer;
+}
+.but:before {
+  content: "\f105";
+  font-family: FontAwesome;
+  color: #F9F0DA;
+  font-size: 16px;
+  font-weight: bold;
+}
+.reg-but{
+    display: flex;
+    justify-content: center;
+}
+.bpr{
+    font-size: 32px;
+    padding: 16px 49px;
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    width: fit-content;
+    border-radius: 2em;
+    background-color: #EC5353;
+    color: white;
+    border: 0;
+    /* justify-content: center; */
+}
+.bpr:hover{
+    background: white;
+    color: #EC5353;
+    border: 2px solid #EC5353;
+}
+.frm .icon{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 0px;
+    align-items: center;
+    justify-content: center;
+    font-size: 46px;
+}
+#que{
+    top: 203px;
+    position: absolute;
+    width: 19.817px;
+    height: 27.917px;
+    flex-shrink: 0;
+    color: var(--sec-dark-color);
+    z-index: 2;
+    opacity: 1;
+    
+}
+#que::before{
+    /* content: "\ebd0"; */
+    align-content: center;
+    top: -13px;
+    left: -17px;
+    right: 37px;
+    position: absolute;
+    display: inline-block;
+    width: 53px;
+    height: 53px;
+    border: 3px solid var(--sec-dark-color) ;
+    border-radius: var(--percent50);
+    opacity: .4;
+    cursor: pointer;
+}
+#user-select{
+    appearance: none;
+}
+#dow{
+    top: 367px;
+    position: absolute;
+    width: 19.817px;
+    height: 27.917px;
+    flex-shrink: 0;
+    color: var(--sec-dark-color);
+    z-index: 2;
+    opacity: 1;
+}
+#dow::before{
+    align-content: center;
+    top: -3px;
+    left: -17px;
+    right: 37px;
+    position: absolute;
+    display: inline-block;
+    width: 53px;
+    height: 53px;
+    border: 3px solid var(--sec-dark-color) ;
+    border-radius: var(--percent50);
+    opacity: .4;
+    cursor: pointer;
+}
+.imp{
+    top: 40px;
+    align-self: flex-end;
+    right: 40px;
+    width: 328px;
+    height: 163px;
+    flex-shrink: 0;
+    border-radius: 25px 25px 0 25px;
+    background: #EC5353;
+    position: absolute;
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    
+}
+.imp2{
+    top: -46px;
+    align-self: flex-end;
+    right: 40px;
+    width: 328px;
+    height: 163px;
+    flex-shrink: 0;
+    border-radius: 25px 25px 0 25px;
+    background: #EC5353;
+    position: absolute;
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    
+}
+:where(.imp, .imp2) li{
+    width: 267px;
+    color: #FFF;
+    font-family: Manrope;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding: 2px;
+}
+
+.icon:hover ~ :where(.imp, .imp2) {
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.2s ease-out;
+}
+.log{
+    margin-top: 67px;
+    margin-bottom: 67px;
+}
+.logi{
+    margin-top: 57px;
+    padding: 16px 70px;
+}
+#que1{
+    top: 117px;
+    position: absolute;
+    width: 19.817px;
+    height: 27.917px;
+    flex-shrink: 0;
+    color: var(--sec-dark-color);
+    z-index: 2;
+    opacity: 1;
+    
+}
+#que1::before{
+    /* content: "\ebd0"; */
+    align-content: center;
+    top: -13px;
+    left: -17px;
+    right: 37px;
+    position: absolute;
+    display: inline-block;
+    width: 53px;
+    height: 53px;
+    border: 3px solid var(--sec-dark-color) ;
+    border-radius: var(--percent50);
+    opacity: .4;
+    cursor: pointer;
+}
+
+
+
+input[type=radio] {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: -1;
+  }
+  
+  label {
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  label {
+    color: white;
+    display: inline-block;
+    background: black;
+    margin: 0 0 .5em 0;
+    padding: 1em 2em;
+  }
+  
+  input[type=radio]:checked~label {
+    background-color: #EC5353;
+  }
+  select{
+    color: var(--sec-dark-color);
+  }

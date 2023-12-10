@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     "tender_auth",
     "market",
     'decision',
-    "chat"
+    "chat",
+    "about"
 ]
 
 MIDDLEWARE = [
