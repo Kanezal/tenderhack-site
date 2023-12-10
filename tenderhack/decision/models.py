@@ -23,39 +23,43 @@ CONCLUSION_BASIS_CHOICES = [
 ]
 
 class MainContract(models.Model):
-    law = models.CharField(max_length=255, choices=LAW_CHOICES)
-    procurement_method = models.CharField(max_length=255, choices=PROCUREMENT_METHOD_CHOICES)
-    conclusion_basis = models.CharField(max_length=255, choices=CONCLUSION_BASIS_CHOICES)
-    number = models.TextField()
+    law = models.CharField(max_length=255, choices=LAW_CHOICES, null=True, blank=True)
+    procurement_method = models.CharField(max_length=255, choices=PROCUREMENT_METHOD_CHOICES, null=True, blank=True)
+    conclusion_basis = models.CharField(max_length=255, choices=CONCLUSION_BASIS_CHOICES, null=True, blank=True)
+    number = models.TextField(null=True, blank=True)
 
-    validity_period_start = models.DateField()
-    validity_period_end = models.DateField()
+    # validity_period_start = models.DateField(null=True, blank=True)
+    # validity_period_end = models.DateField(null=True, blank=True)
     
-    contract_subject = models.TextField()
-    conclusion_place = models.CharField(max_length=255) # TODO: сделать выбор адреса реальный
+    contract_subject = models.TextField(null=True, blank=True)
+    conclusion_place = models.CharField(max_length=255, null=True, blank=True) # TODO: сделать выбор адреса реальный
 
     procurement_id = models.CharField(
         max_length=36,
-        validators=[RegexValidator(r'^\d+$', 'Введите число.')]
+        validators=[RegexValidator(r'^\d+$', 'Введите число.')],
+        null=True, blank=True
     )
-    financing_source = models.CharField(max_length=255, choices=FINANCING_SOURCE_CHOICES)
+    financing_source = models.CharField(max_length=255, choices=FINANCING_SOURCE_CHOICES, null=True, blank=True)
     
-    amount = models.DecimalField(max_digits=12, decimal_places=2)
-    advance = models.DecimalField(max_digits=12, decimal_places=2)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    advance = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     
-    customer_details = models.ForeignKey('tender_auth.TenderUser', on_delete=models.CASCADE, related_name='customer_details')
-    performer_details = models.ForeignKey('tender_auth.TenderUser', on_delete=models.CASCADE, related_name='performer_details')
+    customer_details = models.ForeignKey('tender_auth.TenderUser', on_delete=models.CASCADE, related_name='customer_details', blank=True)
+    performer_details = models.ForeignKey('tender_auth.TenderUser', on_delete=models.CASCADE, related_name='performer_details', blank=True)
 
-    signer = models.TextField()
-    general_info = models.TextField()
-    bank_details = models.TextField()
+    signer = models.TextField(null=True, blank=True)
+    general_info = models.TextField(null=True, blank=True)
+    bank_details = models.TextField(null=True, blank=True)
 
-    contact_details_phone = models.CharField(max_length=15)
-    contact_details_email = models.EmailField()
+    contact_details_phone = models.CharField(max_length=15, null=True, blank=True)
+    contact_details_email = models.EmailField(null=True, blank=True)
 
-    delivery_info = models.TextField()
+    # delivery_info = models.TextField(null=True, blank=True)
 
     records_history = HistoricalRecords()
+
+    is_being_edited = models.BooleanField(default=False)
+    last_edited_by = models.ForeignKey('tender_auth.TenderUser', on_delete=models.SET_NULL, null=True, blank=True)
 
 
 class Specification(models.Model):

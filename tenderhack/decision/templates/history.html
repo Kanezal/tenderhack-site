@@ -1,12 +1,110 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for change in changes %}
-        <div>
-            <h2>Change made at {{ change.history_date }}</h2>
-            {% for diff in change.changes %}
-                <p>{{ diff.field }}: {{ diff.old }} -> {{ diff.new }}</p>
-            {% endfor %}
+    <div class="card text-center mb-2" style="height: 98vh;">
+        <div id="cardHeaderBar" class="card-header" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Данная строка прогресса показывает вам сколько вам осталось до финального согласования контракта."> 
+            <h5 id="partner-holder" class="card-title">
+                {% if request.user.role == 'performer' %}
+                    {{ chat.customer.username }}
+                {% else %}
+                    {{ chat.performer.username }}
+                {% endif %}
+                </h5>
+            <div id="example" class="progress mt-1" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 3px">
+                <div class="progress-bar" style="width: 25%"></div>
+            </div>  
         </div>
-    {% endfor %}    
+        <script>
+            const tooltip = new bootstrap.Tooltip('#cardHeaderBar', {
+                boundary: document.body // or document.querySelector('#boundary')
+            })        
+        </script>
+
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs align-content-center d-flex justify-content-between">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="true" href="{% url 'chat' chat.id %}">Переписка</a>
+                </li>
+                <li class="nav-item">   
+                    <a class="nav-link active" href="{% url 'history' chat.main_contract.id  %}">Список изменений</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if not can_edit and is_being_edited %} disabled {% endif %}" href="{% url 'update_contract' chat.main_contract.id %}">Внести изменения</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body flex-grow-1 d-flex flex-column">
+            <div id="chat-log" class="overflow-y-scroll flex-grow-1" style="max-height: 70vh;">
+                <div class="d-grid gap-2">
+                    {% for change in changes %}
+                        <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#change-modal-{{ forloop.counter }}">
+                            Изменение №{{ forloop.counter }}
+                        </button>  
+
+                        <div class="modal fade" id="change-modal-{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Изменения {{ forloop.counter }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {% for diff in change.changes %}
+                                            {% if diff.field != "records_history" and diff.field != "is_being_edited" and diff.field != "last_edited_by" %}
+                                                <p class="card-text">{{ diff.field }}: {{ diff.old }} → {{ diff.new }}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p class="card-text">Пока изменений не было внесено</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% if current_conflict %}
+                        <hr>
+                        <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#cur-change-modal">
+                            Оспариваемое изменение
+                        </button>  
+
+                        <div class="modal fade" id="cur-change-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Оспариваемое изменение</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {% for diff in current_conflict.changes %}
+                                            {% if diff.field != "records_history" and diff.field != "is_being_edited" and diff.field != "last_edited_by" %}
+                                                <p class="card-text">{{ diff.field }}: {{ diff.old }} → {{ diff.new }}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if can_edit %}
+            <div class="card-footer">
+                <button type="button" class="btn btn-success" onclick="location.href=`{% url 'approve_change' chat.main_contract.id %}`">Согласиться</button>
+                <button type="button" class="btn btn-danger" onclick="location.href=`{% url 'reject_change' chat.main_contract.id %}`">Отказаться</button>
+                <button type="button" class="btn btn-info" onclick="location.href=`{% url 'update_contract' chat.main_contract.id %}`">Изменить</button>
+            </div>
+        {% endif %}
+        
+        {% if is_being_edited and not can_edit %}
+            <div class="card-footer">
+                <button type="button" class="btn btn-warning" disabled>Изменение оспаривается на другой стороне</button>
+            </div>
+        {% endif %}
+    </div>
 {% endblock content %}

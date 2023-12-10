@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # Channels
     'approval',
     'simple_history',
+    'bootstrap5',
+
     'channels',
     'daphne',
     
@@ -142,6 +144,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # My settings
 LOGIN_URL = '/auth/login/'
+LOGOUT_REDIRECT_URL = 'login'
 AUTH_USER_MODEL = 'tender_auth.TenderUser'
 LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'Europe/Moscow'

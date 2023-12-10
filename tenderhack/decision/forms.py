@@ -4,4 +4,4 @@ from .models import MainContract
 class MainContractForm(forms.ModelForm):
     class Meta:
         model = MainContract
-        fields = '__all__'
+        exclude = ['customer_details', 'performer_details', 'is_being_edited', 'last_edited_by']

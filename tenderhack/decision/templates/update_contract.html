@@ -1,9 +1,155 @@
 {% extends 'base.html' %}
 
+{% load bootstrap5 %}
+
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+    <div class="card text-center mb-2" style="height: 98vh;">
+        <div id="cardHeaderBar" class="card-header" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Данная строка прогресса показывает вам сколько вам осталось до финального согласования контракта."> 
+            <h5 id="partner-holder" class="card-title">
+                {% if request.user.role == 'performer' %}
+                    {{ chat.customer.username }}
+                {% else %}
+                    {{ chat.performer.username }}
+                {% endif %}
+                </h5>
+            <div id="example" class="progress mt-1" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 3px">
+                <div class="progress-bar" style="width: 25%"></div>
+            </div>  
+        </div>
+        <script>
+            const tooltip = new bootstrap.Tooltip('#cardHeaderBar', {
+                boundary: document.body // or document.querySelector('#boundary')
+            })        
+        </script>
+
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs align-content-center d-flex justify-content-between">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="true" href="{% url 'chat' chat.id %}">Переписка</a>
+                </li>
+                <li class="nav-item">   
+                    <a class="nav-link" href="{% url 'history' chat.main_contract.id  %}">Список изменений</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'update_contract' chat.main_contract.id %}">Внести изменения</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body flex-grow-1 d-flex flex-column">
+            <div id="chat-log" class="overflow-y-scroll flex-grow-1 pb-4 px-4" style="max-height: 73vh;">
+                <form method="post" id="main-form">
+                    {% csrf_token %}
+
+                    {% bootstrap_form_errors form %}
+                    
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Преамбула
+                                </button>     
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {% for field in form %}
+                                        {% if field.name == 'law' or field.name == 'procurement_method' or field.name == 'conclusion_basis' %}
+                                            <div class="form-group">
+                                                {% bootstrap_field field %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    Заголовок
+                                </button>     
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {% for field in form %}
+                                        {% if field.name == 'number' or field.name == 'conclusion_place' %}
+                                            <div class="form-group">
+                                                {% bootstrap_field field %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>                                             
+                        </div>
+                
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                    Пункт 1
+                                </button>     
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {% for field in form %}
+                                        {% if field.name == 'contract_subject' or field.name == 'procurement_id' or field.name == 'financing_source' %}
+                                            <div class="form-group">
+                                                {% bootstrap_field field %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>                                             
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                    Пункт 2
+                                </button>     
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {% for field in form %}
+                                        {% if field.name == 'amount' or field.name == 'advance' %}
+                                            <div class="form-group">
+                                                {% bootstrap_field field %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>                                             
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                    Пункт 11
+                                </button>     
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {% for field in form %}
+                                        {% if field.name == 'signer' or field.name == 'general_info' or field.name == 'bank_details' or field.name == 'contact_details_phone' or field.name == 'contact_details_email' %}
+                                            <div class="form-group">
+                                                {% bootstrap_field field %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>                                             
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-success" id="submit-button">Создать запрос на изменение</button>
+        </div>
+    </div>
 {% endblock content %}
+
+{% block javascript %}
+<script>
+    document.getElementById('submit-button').addEventListener('click', function() {
+        document.getElementById('main-form').submit();
+    });
+</script>
+{% endblock javascript %}

@@ -3,10 +3,10 @@ from tender_auth.models import TenderUser
 
 
 class Chat(models.Model):
+    main_contract = models.ForeignKey('decision.MainContract', on_delete=models.CASCADE, null=True)
+    
     performer = models.ForeignKey(TenderUser, related_name='performer', on_delete=models.CASCADE, null=True)
     customer = models.ForeignKey(TenderUser, related_name='customer', on_delete=models.CASCADE, null=True)
-
-    main_form = models.ForeignKey('decision.MainContract', on_delete=models.CASCADE, null=True)
     
     creation_date = models.DateTimeField(auto_now_add = True)
 
@@ -24,7 +24,7 @@ class Message(models.Model):
 
     chat = models.ForeignKey(Chat, on_delete = models.CASCADE, null=True)
 
-    is_read = models.BooleanField(default = False)
+    is_system = models.BooleanField(default = False)
 
 
 class FormMessage(models.Model):

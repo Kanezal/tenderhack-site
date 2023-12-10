@@ -1,102 +1,166 @@
 {% extends 'base.html' %}
 
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+	integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock head %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
 {% block content %}
-<div id="slider" style="overflow-x: auto; white-space: nowrap;">
-    {% for form_message in form_messages %}
-    <div style="display: inline-block;">
-        <input type="hidden" id="form-message-{{ forloop.counter }}" value="{{ form_message.form }}">
-        <p onclick="showModal('form-message-{{ forloop.counter }}')">Click to view form message</p>
-    </div>
-    {% endfor %}
+<div class="card text-center mb-2" style="height: 98vh;">
+	<div id="cardHeaderBar" class="card-header" data-bs-toggle="tooltip" data-bs-placement="bottom"
+		data-bs-title="Данная строка прогресса показывает вам сколько вам осталось до финального согласования контракта.">
+		<h5 id="partner-holder" class="card-title">
+			{% if request.user.role == 'performer' %}
+			{{ chat.customer.username }}
+			{% else %}
+			{{ chat.performer.username }}
+			{% endif %}
+		</h5>
+		<div id="example" class="progress mt-1" role="progressbar" aria-label="Example 1px high" aria-valuenow="25"
+			aria-valuemin="0" aria-valuemax="100" style="height: 3px">
+			<div class="progress-bar" style="width: 25%"></div>
+		</div>
+	</div>
+	<script>
+		const tooltip = new bootstrap.Tooltip('#cardHeaderBar', {
+			boundary: document.body // or document.querySelector('#boundary')
+		})        
+	</script>
+
+	<div class="card-header">
+		<ul class="nav nav-tabs card-header-tabs align-content-center d-flex justify-content-between">
+			<li class="nav-item">
+				<a class="nav-link active" aria-current="true" href="{% url 'chat' chat.id %}">Переписка</a>
+			</li>
+			{% if not chat.is_closed %}
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'history' chat.main_contract.id  %}">Список изменений</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link {% if not can_edit and is_being_edited %} disabled {% endif %}"
+					href="{% url 'update_contract' chat.main_contract.id %}">Внести изменения</a>
+			</li>
+			{% endif %}
+		</ul>
+	</div>
+	<div class="card-body flex-grow-1 d-flex flex-column">
+		<div id="chat-log" class="overflow-y-scroll flex-grow-1" style="max-height: 70vh;">
+			{% for message in messages %}
+			<div
+				class="card mb-2 {% if message.sender.username == user.username %} text-bg-danger {% else %}  {% endif %} text-start">
+				<div class="card-body">
+					{{ message.text }}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="card-footer">
+		<div class="input-group">
+			{% if not chat.is_closed %}
+			<input id="chat-message-input" class="form-control" type="text" placeholder="Введите сообщение"
+				type="text" />
+			<button id="chat-message-submit" class="btn btn-outline-secondary" type="button">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+					class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+					<path fill-rule="evenodd"
+						d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+				</svg>
+			</button>
+			{% else %}
+			<button id="download-contract" class="btn btn-outline-danger">Скачать контракт</button>
+			{% endif %}
+		</div>
+	</div>
 </div>
 
-<hr/>
-
-<div id="chat-log" style="max-height: 500px; overflow-y: scroll;">
-    {% for message in messages %}
-    <p>{{ message.sender.username }}: {{ message.text }}</p>
-    {% empty %}
-    <p>No messages yet...</p>
-    {% endfor %}
+{% if chat.is_closed %}
+<div style="margin-top: 1000vh;">
+	{% include 'closed/contract.html' %}
 </div>
 
-<input id="open-modal" type="button" value="FORM">
-<input id="chat-message-input" type="text">
-<input id="chat-message-submit" type="button" value="Send">
+<script>
+	document.querySelector("#download-contract").addEventListener('click', () => {
+		var element = document.getElementById('pdf-format');
+		html2pdf(element);
+	})
+</script>
+{% endif %}
 
-
-<dialog id="form-modal">
-    <div>
-
-    </div>
-    <button id="close-modal">Close</button>
-</dialog>
 {% endblock %}
 
 {% block javascript %}
 <script>
-    // Модальное окно форм
-    formModal = document.querySelector('#form-modal');
-    closeBtn = document.querySelector('#close-modal');
-    openBtn = document.querySelector('#open-modal');
+	// Вебсокеты
+	const curUser = `{{ request.user.username }}`;
 
-    openBtn.addEventListener('click', function() {
-        formModal.showModal();
-    });
-    closeBtn.addEventListener('click', function() {
-        formModal.close();
-    });
-</script>
-<script>
-    // Вебсокеты
-    const chatLog = document.querySelector('#chat-log');
-    chatLog.scrollTop = chatLog.scrollHeight
+	const chatLog = document.querySelector('#chat-log');
+	chatLog.scrollTop = chatLog.scrollHeight
 
-    var roomName = `{{ room_id }}`;
-    var chatSocket = new WebSocket(
-        'ws://' + window.location.host +
-        '/ws/chat/' + roomName + '/');
+	var roomName = `{{ room_id }}`;
+	var chatSocket = new WebSocket(
+		'ws://' + window.location.host +
+		'/ws/chat/' + roomName + '/');
 
-    chatSocket.onmessage = function(e) {
-        var data = JSON.parse(e.data);
-        var message = data['message'];
-        console.log(data)
-        document.querySelector('#chat-log').innerHTML += (`<p>${ data['sender'] }: ${message}</p>`);
+	chatSocket.onmessage = function (e) {
+		var data = JSON.parse(e.data);
+		var message = data['message'];
+		var sender = data['sender'];
 
-        const chatLog = document.querySelector('#chat-log');
+		console.log(sender);
 
-        if (chatLog.scrollHeight - chatLog.scrollTop - chatLog.clientHeight < 100) {
-            // Auto scroll to the bottom
-            chatLog.scrollTop = chatLog.scrollHeight;
-        }
-    };
+		if (sender == curUser) {
+			var newMessageCard = `
+                <div class="card mb-2 text-start text-bg-danger">
+                    <div class="card-body">
+                        ${message}
+                    </div>
+                </div>
+            `;
+		} else {
+			var newMessageCard = `
+                <div class="card mb-2 text-start">
+                    <div class="card-body">
+                        ${message}
+                    </div>
+                </div>
+            `;
+		}
 
-    chatSocket.onclose = function(e) {
-        console.error('Chat socket closed unexpectedly');
-    };
+		document.querySelector('#chat-log').innerHTML += newMessageCard;
 
-    document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function(e) {
-        if (e.keyCode === 13) {  // enter, return
-            document.querySelector('#chat-message-submit').click();
-        }
-    };
+		const chatLog = document.querySelector('#chat-log');
 
-    document.querySelector('#chat-message-submit').onclick = function(e) {
-        var messageInputDom = document.querySelector('#chat-message-input');
-        var message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'message': message
-        }));
+		if (chatLog.scrollHeight - chatLog.scrollTop - chatLog.clientHeight < 200) {
+			// Auto scroll to the bottom
+			chatLog.scrollTop = chatLog.scrollHeight;
+		}
+	};
 
-        messageInputDom.value = '';
-    };
-</script>
+	chatSocket.onclose = function (e) {
+		console.error('Chat socket closed unexpectedly');
+	};
 
-<script>
-    function showModal(inputId) {
-        var formMessage = document.getElementById(inputId).value;
-        alert(formMessage);
-    }
+	document.querySelector('#chat-message-input').focus();
+	document.querySelector('#chat-message-input').onkeyup = function (e) {
+		if (e.keyCode === 13) {  // enter, return
+			document.querySelector('#chat-message-submit').click();
+		}
+	};
+
+	document.querySelector('#chat-message-submit').onclick = function (e) {
+		var messageInputDom = document.querySelector('#chat-message-input');
+		var message = messageInputDom.value;
+		chatSocket.send(JSON.stringify({
+			'sender': '{{request.user.username}}',
+			'message': message
+		}));
+
+		messageInputDom.value = '';
+	};
 </script>
 {% endblock %}
