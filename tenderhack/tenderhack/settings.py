@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     # Channels
-    'approval',
     'simple_history',
     'bootstrap5',
 
